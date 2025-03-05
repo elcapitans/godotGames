@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://d14b3q73vs076"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_talfg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_yy05t"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_noaul"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7r25x"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bfmth"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0vyco"]
+
+[node name="Main" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+
+[node name="Floor" type="StaticBody3D" parent="World"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+physics_material_override = SubResource("PhysicsMaterial_yy05t")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Floor"]
+shape = SubResource("BoxShape3D_noaul")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World/Floor/CollisionShape3D"]
+mesh = SubResource("PlaneMesh_7r25x")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+script = ExtResource("1_talfg")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_bfmth")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_0vyco")
+
+[node name="CameraPivot" type="Node3D" parent="Player"]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+spring_length = 3.0
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot/SpringArm3D"]
